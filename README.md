@@ -1,8 +1,8 @@
-## Welcome to GitHub Pages
+## Bienvenido a ERAM
 
-You can use the [editor on GitHub](https://github.com/KajiiNarumi/ERAM/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Este software esta pensado como un apoyo para escuelas que usan equipos con sistemas operativos  Ubuntu y/o Manjaro, 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+LICENSE GPL v3 
 
 ### Markdown
 
