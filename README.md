@@ -10,11 +10,18 @@ Estamos trabajando bajo la licencia GPL v3, así que siéntase libre de estudiar
 
 
 **Puedes descargar este software completamente gratis desde**: 
-[Descarga](https://github.com/KajiiNarumi/ERAM/archive/master.zip).
+[Descarga Master](https://github.com/KajiiNarumi/ERAM/archive/master.zip).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/KajiiNarumi/ERAM/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+
+[GitHub](https://github.com/KajiiNarumi/ERAM). 
+
+
+
+
+
+
+The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
 ### Support or Contact
 
