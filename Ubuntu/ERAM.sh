@@ -1,5 +1,4 @@
 #!/bin/bash
-
 ############################################################################
 #    Kajii Narumi kajiikana69@gmail.com
 #    Gabriel Gottesman gottesman007@gmail.com
@@ -19,15 +18,34 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+#                          ./+o+-       
+#                  yyyyy- -yyyyyy+      
+#               ://+//////-yyyyyyo      
+#           .++ .:/++++++/-.+sss/`      
+#         .:++o:  /++++++++/:--:/-      
+#        o:+o+:++.`..```.-/oo+++++/     
+#       .:+o:+o/.          `+sssoo+/    
+#  .++/+:+oo+o:`             /sssooo.   
+# /+++//+:`oo+o               /::--:.   OS: Ubuntu 16.04 xenial
+# \+/+o+++`o++o               ++////.   
+#  .++.o+++oo+:`             /dddhhh.   
+#       .+.o+oo:.          `oddhhhh+    
+#        \+.++o+o``-````.:ohdhhhhh+     
+#         `:o+++ `ohhhhhhhhyo++os:      
+#           .o:`.syhhhhhhh/.oo++o`      
+#               /osyyyyyyo++ooo+++/     
+#                   ````` +oo+++o\:    
+#                          `oo++.  
+##############################################################################
 #asegurese de instalar los siguientes programas
-#
-#sudo apt-get install nmap expect wakeonlan -y
-#
-#Para saver las mac de los equipos utilice el siguiente comando
+#sudo apt-get install zenity ssh nmap expect wakeonlan -y
+##############################################################################
+#Para saber las mac de los equipos utilice el siguiente comando
 # sudo nmap -sP 192.168.1.1-254
-#
+##############################################################################
+#Llene los siguientes campos 
 #contraseña de ingreso al script
-#PASWD="1007"
+PASWD=""
 #Nombre del Negocio o Escuela
 NAME=""
 #Puerto ssh
@@ -41,10 +59,19 @@ MAC=(0 "" "" "" "" "" "")
 IP=(0 "" "" "" "" "" "")
 USA=(0 "" "" "" "" "" "")
 PSA=(0 "" "" "" "" "" "")
-#USU=(0 "publico1" "publico2" "publico3" "publico4" "publico6" "publico6")
-#PSU=(0 "FreeKee-X" "FreeKeeX2" "FreeKeeX3" "FreeKeeX4" "FreeKeeX5" "FreeKeeX6")
-EQP=(0 "1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+##############################################################################
+# si deseas quitar la contrasela elimine las siguientes 7 lineas
+ACC1="Introdusca su contraseña:"
+ACC=$(zenity --title="Bienvenido" --width=200 --height=100 --entry --hide-text --text "$ACC1")
+if [ $ACC = ${PASWD} ]
+ then zenity --info --width=200 --height=100 --text="Que gusto verte de vuelta (^_^)"
+ else zenity --error --width=250 --height=150 --text="la contraseña $ACC es incorrecta"
+exit
+fi
+##############################################################################
 #comandos enviados para controlar equipos remotos
+#Numero de equipos (el script esta programado unicamente a 10 equipos)
+EQP=(0 "1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 #Desbloquear Equipos
 ULK="sh ~/unlock.sh"
 #Bloquear Equipos
@@ -54,42 +81,23 @@ PO="sudo -S shutdown -h now"
 #Reiniciar Equipos
 RB="sudo -S shutdown -r now"
 #Actualizar Equipos
-#Quite el "#" del sistema operativo que use en los clientes
-# Clientes Manjaro
-#UG="sudo -S pacman -Syyuu"
-# Clientes Ubuntu
-#UG="sudo -S apt-get update && sudo -S apt-get dist-upgrade -y"
+UG="sudo -S apt-get update && sudo -S apt-get dist-upgrade -y"
 #Limpiar Clientes
 ER="rm -rf ~/Descargas/* && rm -rf ~/Documentos/* && rm -rf ~/Escritorio/* && rm -rf ~/Imágenes/* && rm -rf ~/Música/* && rm -rf ~/Vídeos/* && rm -rf ~/.local/share/Trash/* "
-
-# si deseas establecer contraseña quita las mensiones (#)
-
-#ACC1="Introdusca su contraseña:"
-#ACC=$(zenity --title="Bienvenido" --width=200 --height=100 --entry --hide-text --text "$ACC1")
-#if [ $ACC = ${PASWD} ]
-# then zenity --info --width=300 --height=200 --text="Que gusto verte de vuelta (^_^)"
-# else zenity --error --width=400 --height=200 --text="la contraseña $ACC es incorrecta"
-#exit
-#fi
-
+##############################################################################
+#comprobando y creando la carpeta Reporte
 if [ -d ~/Reporte ]
-
 then 
-
 echo "Comprobando carpeta Reporte"
-
 else
-
 mkdir ~/Reporte
-
 fi
-
-
+###############################################################################
 #inicio del scripit 
-opcion=`/usr/bin/zenity --title="$NAME" --width=350 --height=400 \
+opcion=`/usr/bin/zenity --title="$NAME" --width=200 --height=400 \
                          --text="Selecciona una Acción" \
                          --list --column="Acción" \
-                         --list "Desbloquear Equipos" "Consumido" "Bloquear Equipos" "ultimos" "Encender" "Apagar" "Reiniciar" "Enviar Archivos" "Actualizar Clientes" "Limpiar Clientes" `
+                         --list "Desbloquear Equipos" "Consumido" "Bloquear Equipos" "ultimos" "Encender" "Apagar" "Reiniciar" "Cerrar Sesion" "Enviar Archivos" "Actualizar Clientes" "Limpiar Clientes" `
 if [ $? -eq 0 ]
 then
         IFS="|"
@@ -123,7 +131,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT desbloquear
@@ -153,7 +161,7 @@ zenity --info \
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT Consumido
@@ -194,7 +202,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT bloquear
@@ -223,7 +231,7 @@ zenity --info \
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT ultimos
@@ -243,7 +251,7 @@ wakeonlan ${MAC[opcion]}
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Encender Equipos
@@ -271,7 +279,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Apagar equipos
@@ -299,11 +307,38 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
-
 #FIN DEL SCRIPT Reiniciar Equipos
+        elif [ "$opcion" = "Cerrar Sesion" ]
+                     then
+# INICIO DEL SCRIPT Encender Equipos
+opcion=`/usr/bin/zenity --title="Cerrando" --width=350 --height=500 \
+                         --text="Selecciona un Equipo" \
+                         --list --column="Seleccionar" --column="Equipo" \
+                         --checklist FALSE "1" FALSE "2" FALSE "3" FALSE "4" FALSE "5" FALSE "6" FALSE "7" FALSE "8" FALSE "9" FALSE "10" `
+if [ $? -eq 0 ]
+then
+        IFS="|"
+        for opcion in $opcion
+        do
+expect -c "
+set timeout -1
+spawn ssh -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | killall -u ${USA[opcion]}
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+        done
+./ERAM.sh
+else
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+fi
+exit
+#FIN DEL SCRIPT Encender Equipos
         elif [ "$opcion" = "Enviar Archivos Admin" ]
                      then
 # INICIO DEL SCRIPT Enviar Archivos Admin
@@ -321,7 +356,7 @@ ${ARCH} sftp://${USA[opcion]}@${IP[opcion]}:${PORT}/home/${USA[opcion]}/Escritor
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Enviar Archivos Admin
@@ -351,7 +386,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Actualizar Equipos
@@ -380,7 +415,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Limpiar Clientes
@@ -394,11 +429,11 @@ then
 ./ERAM.sh
 else
 zenity --info \
---text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+--text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 exit
 fi
 #salir >
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor informcaion ,  \nvisita <b>http://elcomodelcomo.blogspot.mx/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
