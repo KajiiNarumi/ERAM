@@ -9,13 +9,17 @@ En un principio su nombre empezó como ERA, Encendido, Reinicio y Apagado, dado 
 Estamos trabajando bajo la licencia GPL v3, así que siéntase libre de estudiar y modificar este software.
 
 
-**Puedes descargar este software completamente gratis desde**: 
+**Puedes descargar este software completamente gratis desde:**
 [Descarga Master](https://github.com/KajiiNarumi/ERAM/archive/master.zip).
 
 
 
-[GitHub](https://github.com/KajiiNarumi/ERAM). 
+[Contactame en Telegram](https://t.me/KajiiNarumiChannel). 
 
+[Entra a mi blog](http://kajiinarumi.webutu.com/).
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2dxpU7SMHQk" frameborder="0" allowfullscreen></iframe>
 
 
 

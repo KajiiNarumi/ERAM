@@ -80,7 +80,7 @@ fi
 opcion=`/usr/bin/zenity --title="$NAME" --width=200 --height=400 \
                          --text="Selecciona una Acción" \
                          --list --column="Acción" \
-                         --list "Desbloquear Equipos" "Consumido" "Bloquear Equipos" "ultimos" "Encender" "Apagar" "Reiniciar" "Cerrar Sesion" "Enviar Archivos" "Actualizar Clientes" "Limpiar Clientes" `
+                         --list "Desbloquear Equipos" "Consumido" "Bloquear Equipos" "Ultimos" "Encender" "Apagar" "Reiniciar" "Cerrar Sesion" "Enviar Archivos" "Actualizar Clientes" "Limpiar Clientes" `
 if [ $? -eq 0 ]
 then
         IFS="|"
@@ -189,7 +189,7 @@ else
 fi
 exit
 # FIN DEL SCRIPT bloquear
-        elif [ "$opcion" = "ultimos" ]
+        elif [ "$opcion" = "Ultimos" ]
                      then
 # INICIO DEL SCRIPT ultimos
 opcion=`/usr/bin/zenity --title="Ultimos" --width=50 --height=500 \
@@ -322,7 +322,7 @@ else
 fi
 exit
 #FIN DEL SCRIPT Encender Equipos
-        elif [ "$opcion" = "Enviar Archivos Admin" ]
+        elif [ "$opcion" = "Enviar Archivos" ]
                      then
 # INICIO DEL SCRIPT Enviar Archivos Admin
 
