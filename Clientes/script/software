@@ -1,0 +1,7 @@
+software necesario
+
+
+sudo apt-get update
+sudo apt-get install mplayer
+sudo apt-get install eog
+sudo apt-get install crontab

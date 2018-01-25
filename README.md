@@ -1,6 +1,6 @@
 ## Bienvenido a ERAM
 
-Este proyecto comenzó como un apoyo para Escuelas y negocios de CiberCafé que usaran sistemas operativos basados en GNU/Linux, empezando con Ubuntu y distribuciones derivadas, y posteriormente modificándose para que trabajara en Manjaro
+Este proyecto comenzó como un apoyo para Escuelas y negocios de CiberCafé que usaran sistemas operativos basados en GNU/Linux, empezando con Ubuntu y distribuciones derivadas, y posteriormente modificándose para que trabajara en Manjaro (actualmente no estoy realizando cambios en Manjaro)
 
 En un principio su nombre empezó como ERA, Encendido, Reinicio y Apagado, dado que eran las únicas opciones con las que contaba, pero cuando se añadieron mas características cambiamos el nombre a ERAM agregando el Manager.
 
@@ -16,13 +16,13 @@ Estamos trabajando bajo la licencia GPL v3, así que siéntase libre de estudiar
 
 [Contactame en Telegram](https://t.me/KajiiNarumiChannel). 
 
-[Entra a mi blog](http://kajiinarumi.webutu.com/).
+[Entra a mi blog](http://kajiinarumi.hol.es/).
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2dxpU7SMHQk" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IOd-SKz2WtQ" frameborder="0" allowfullscreen></iframe>
 
 
-
+**Estoy empezando a hacer tutoriales de como montar un cibercafe con gnu/linux**
 
 
 The name of this theme is saved in the Jekyll `_config.yml` configuration file.
