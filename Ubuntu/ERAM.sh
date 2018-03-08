@@ -26,7 +26,7 @@
 #        o:+o+:++.`..```.-/oo+++++/     
 #       .:+o:+o/.          `+sssoo+/    
 #  .++/+:+oo+o:`             /sssooo.   
-# /+++//+:`oo+o               /::--:.   OS: Ubuntu 16.04 xenial
+# /+++//+:`oo+o               /::--:.   OS: Ubuntu 17.10 xenial
 # \+/+o+++`o++o               ++////.   
 #  .++.o+++oo+:`             /dddhhh.   
 #       .+.o+oo:.          `oddhhhh+    
@@ -39,6 +39,7 @@
 ##############################################################################
 #asegurese de instalar los siguientes programas 
 #sudo apt-get install zenity ssh nmap expect wakeonlan system-config-printer-gnome network-manager-gnome -y
+# favor de mover manualmente alerta.wav a la carpeta reporte
 ##############################################################################
 #Para saber las mac de los equipos utilice el siguiente comando
 # sudo nmap -sP 192.168.1.1-254
@@ -73,9 +74,11 @@ fi
 #Numero de equipos (el script esta programado unicamente a 10 equipos)
 EQP=(0 "1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 #Desbloquear Equipos
-ULK="sh ~/unlock.sh"
+ULK="sh ~/script/unlock.sh"
 #Bloquear Equipos
-LK="sh ~/lock.sh"
+LK="sh ~/script/lock.sh &"
+#Cronometro
+TIM="sh ~/script/time.sh &"
 #Apagar Equipos
 PO="sudo -S shutdown -h now"
 #Reiniciar Equipos
@@ -97,46 +100,14 @@ fi
 opcion=`/usr/bin/zenity --title="$NAME" --width=200 --height=400 \
                          --text="Selecciona una Acción" \
                          --list --column="Acción" \
-                         --list "Desbloquear Equipos" "Bloquear Equipos" "Consumido" "Ultimos" "Encender" "Reiniciar" "Apagar" "Cerrar Sesion" "Enviar Archivos" "Limpiar Clientes" "Actualizar Clientes" "Impresoras" "Redes" `
+                         --list "Bloquear Equipos" "Desbloquear Equipos" "Contador" "Consumido" "Ultimos" "Gestionar Equipos" "Impresoras" "Redes" `
 if [ $? -eq 0 ]
 then
         IFS="|"
         for opcion in $opcion
         do
-        if [ "$opcion" = "Desbloquear Equipos" ];
+        if [ "$opcion" = "Bloquear Equipos" ];
         then 
-# INICIO DEL SCRIPT desbloquear
-opcion=`/usr/bin/zenity --title="Liberando" --width=50 --height=500 \
-                         --text="Selecciona un Equipo" \
-                         --list --column="Seleccionar" --column="Equipo" \
-                         --checklist FALSE "1" FALSE "2" FALSE "3" FALSE "4" FALSE "5" FALSE "6" FALSE "7" FALSE "8" FALSE "9" FALSE "10" `
-if [ $? -eq 0 ]
-then
-        IFS="|"
-        for opcion in $opcion
-        do
-echo start ${USA[opcion]} >> historial
-date +%D_%H:%M:%S_%s >> historial
-date +%s > ~/Reporte/tem1${USA[opcion]}
-
-#ULK="sh ~/unlock.sh"
-expect -c "
-spawn ssh -X -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $ULK
-match_max 100000
-expect \"*?assword:*\"
-send \"${PSA[opcion]}\r\"
-send \"\r\"
-expect eof
-"
-        done
-./ERAM.sh
-else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
-fi
-exit
-# FIN DEL SCRIPT desbloquear
-        elif [ "$opcion" = "Bloquear Equipos" ]
-                     then
 # INICIO DEL SCRIPT Bloquear
 opcion=`/usr/bin/zenity --title="Bloqueando" --width=50 --height=500 \
                          --text="Selecciona un Equipo" \
@@ -155,6 +126,7 @@ TEM2=$(cat ~/Reporte/tem2${USA[opcion]})
 TIM3=$(echo $TEM2/60 - $TEM1/60 | bc)
 COS=$(echo $TIM3 \* $COST | bc)
 
+aplay ~/Reporte/alerta.wav &
 zenity --info \
 --text="el tiempo fue ${TIM3} minutos
 ....$ ${COS} pesos"
@@ -172,10 +144,163 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT bloquear
+        elif [ "$opcion" = "Desbloquear Equipos" ]
+                     then
+# INICIO DEL SCRIPT desbloquear
+opcion=`/usr/bin/zenity --title="Liberando" --width=50 --height=500 \
+                         --text="Selecciona un Equipo" \
+                         --list --column="Seleccionar" --column="Equipo" \
+                         --checklist FALSE "1" FALSE "2" FALSE "3" FALSE "4" FALSE "5" FALSE "6" FALSE "7" FALSE "8" FALSE "9" FALSE "10" `
+if [ $? -eq 0 ]
+then
+        IFS="|"
+        for opcion in $opcion
+        do
+echo start ${USA[opcion]} >> historial
+date +%D_%H:%M:%S_%s >> historial
+date +%s > ~/Reporte/tem1${USA[opcion]}
+
+expect -c "
+spawn ssh -X -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $ULK
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+        done
+./ERAM.sh
+else
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+fi
+exit
+# FIN DEL SCRIPT desbloquear
+        elif [ "$opcion" = "Contador" ]
+                     then
+# INICIO DEL SCRIPT Contador
+opcion=`/usr/bin/zenity --title="Contador" --width=50 --height=500 \
+                         --text="Selecciona un Equipo" \
+                         --list --column="Seleccionar" --column="Equipo" \
+                         --checklist FALSE "1" FALSE "2" FALSE "3" FALSE "4" FALSE "5" FALSE "6" FALSE "7" FALSE "8" FALSE "9" FALSE "10" `
+if [ $? -eq 0 ]
+then
+        IFS="|"
+        for opcion in $opcion
+        do
+echo start ${USA[opcion]} >> historial
+date +%D_%H:%M:%S_%s >> historial
+date +%s > ~/Reporte/tem1${USA[opcion]}
+
+expect -c "
+spawn ssh -X -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $ULK
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+
+Cron=$(zenity --entry --text="Calcula el tiempo en minutos y resta 2 minutos ejemplo 58m Para 1hora ")
+Min="m"
+
+sleep $Cron$Min
+
+expect -c "
+spawn ssh -X -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $TIM
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+aplay ~/Reporte/alerta.wav &
+
+zenity --question --title "El tiempo se ha agotado" --ok-label="Dar mas tiempo" --cancel-label="Cobrar" \
+--text="El tiempo ${Cron} se ha agotado ¿Que desea hacer?"
+if [ $? -eq 1 ]
+then
+
+sleep 115s
+
+echo stop ${USA[opcion]} >> historial
+date +%D_%H:%M:%S_%s >> historial
+date +%s >  ~/Reporte/tem2${USA[opcion]}
+TEM1=$(cat ~/Reporte/tem1${USA[opcion]})
+TEM2=$(cat ~/Reporte/tem2${USA[opcion]})
+TIM3=$(echo $TEM2/60 - $TEM1/60 | bc)
+COS=$(echo $TIM3 \* $COST | bc)
+
+aplay ~/Reporte/alerta.wav &
+zenity --info \
+--text="el tiempo fue ${TIM3} minutos
+....$ ${COS} pesos"
+
+expect -c "
+set timeout -1
+spawn ssh -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $LK
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+
+else
+
+Cron=$(zenity --entry --text="Calcula el tiempo en minutos y resta 2 minutos ejemplo 58m Para 1hora ")
+Min="m"
+
+sleep $Cron$Min
+
+expect -c "
+spawn ssh -X -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $TIM
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+aplay ~/Reporte/alerta.wav &
+zenity --info \
+--text="El tiempo ${Cron} se ha agotado en 2 minutos se bloqueara"
+
+sleep 115s
+
+echo stop ${USA[opcion]} >> historial
+date +%D_%H:%M:%S_%s >> historial
+date +%s >  ~/Reporte/tem2${USA[opcion]}
+TEM1=$(cat ~/Reporte/tem1${USA[opcion]})
+TEM2=$(cat ~/Reporte/tem2${USA[opcion]})
+TIM3=$(echo $TEM2/60 - $TEM1/60 | bc)
+COS=$(echo $TIM3 \* $COST | bc)
+
+aplay ~/Reporte/alerta.wav &
+zenity --info \
+--text="el tiempo fue ${TIM3} minutos
+....$ ${COS} pesos"
+
+expect -c "
+set timeout -1
+spawn ssh -o StrictHostKeyChecking=no -p ${PORT} ${USA[opcion]}@${IP[opcion]} echo ${PSA[opcion]} | $LK
+match_max 100000
+expect \"*?assword:*\"
+send \"${PSA[opcion]}\r\"
+send \"\r\"
+expect eof
+"
+exit
+fi
+        done
+./ERAM.sh
+else
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+fi
+exit
+# FIN DEL SCRIPT Contador
         elif [ "$opcion" = "Consumido" ]
                      then
 # INICIO DEL SCRIPT Consumido
@@ -202,7 +327,7 @@ zenity --info \
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT Consumido
@@ -232,13 +357,24 @@ zenity --info \
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 # FIN DEL SCRIPT ultimos
-        elif [ "$opcion" = "Encender" ]
+        elif [ "$opcion" = "Gestionar Equipos" ]
                      then
-# INICIO DEL SCRIPT Encender Equipos
+opcion=`/usr/bin/zenity --title="$NAME" --width=200 --height=400 \
+                         --text="Selecciona una Acción" \
+                         --list --column="Acción" \
+                         --list "Encender" "Reiniciar" "Apagar" "Cerrar Sesion" "Enviar Archivos" "Limpiar Clientes" "Actualizar Clientes" `
+if [ $? -eq 0 ]
+then
+        IFS="|"
+        for opcion in $opcion
+        do
+        if [ "$opcion" = "Encender" ];
+        then 
+# INICIO DEL SCRIPT Encender
 opcion=`/usr/bin/zenity --title="Encendiendo" --width=350 --height=500 \
                          --text="Selecciona un Equipo" \
                          --list --column="Seleccionar" --column="Equipo" \
@@ -252,7 +388,7 @@ wakeonlan ${MAC[opcion]}
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Encender Equipos
@@ -280,7 +416,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Reiniciar Equipos
@@ -308,7 +444,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Apagar equipos
@@ -337,7 +473,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Encender Equipos
@@ -358,7 +494,7 @@ ${ARCH} sftp://${USA[opcion]}@${IP[opcion]}:${PORT}/home/${USA[opcion]}/Escritor
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Enviar Archivos Admin
@@ -389,7 +525,7 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Limpiar Clientes
@@ -418,11 +554,29 @@ expect eof
         done
 ./ERAM.sh
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
 #FIN DEL SCRIPT Actualizar Equipos
-        elif [ "$opcion" = "Impresoras" ]
+        fi
+        done
+#salir<
+zenity --question \
+--text="¿Desea salir?"
+if [ $? -eq 1 ]
+then
+./ERAM.sh
+else
+zenity --info \
+--text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+exit
+fi
+#salir >
+else
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+fi
+exit
+         elif [ "$opcion" = "Impresoras" ]
                      then
 
 system-config-printer
@@ -434,7 +588,6 @@ nm-connection-editor
 
 #FIN DEL SCRIPT 
 
-
         fi
         done
 #salir<
@@ -445,11 +598,11 @@ then
 ./ERAM.sh
 else
 zenity --info \
---text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+--text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 exit
 fi
 #salir >
 else
-/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.webutu.com/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
+/usr/bin/zenity --info --text="<b>Terminado!</b> Para mayor información ,  \nvisita <b>http://kajiinarumi.hol.es/</b> o contactame en Telegram <b>https://telegram.me/kajiinarumi/</b>"
 fi
 exit
