@@ -1,0 +1,76 @@
+################################################################################
+
+Por defecto se instegro el archvo 'install.sh' que ya tiene todo lo antes mencionado, solo basta con abrir la terminal y escribir los sigientes comandos
+
+cd script
+./install.sh
+
+
+################################################################################
+################################################################################
+-----------------------software necesario---------------------------------------
+
+sudo apt-get update
+sudo apt-get install mplayer ristretto crontab wondershaper wakeonlan ethtool ssh
+
+mplayer		Permite reproducir videos en pantalla de bloqueo
+ristretto	Permite poner imagenes en pantalla de bloqueo
+crontab		permite establecer acciones programadas
+wondershaper	permite reducir la velocidad de descarga y subida de los clientes
+wakeonlan &
+ethtool		Permiten hacer encendido remoto
+ssh		permite la conexion remota entre cliente servidor
+zenity		permite lanzar cuadros de dialogo desde la terminal
+
+################################################################################
+-----------------------identificar dispositivos de entrada----------------------
+para saber el id del teclado y raton utiliza el siguiente comando
+
+xinput --list
+
+busca y selecciona los id=# (por ejemplo: id=8) para seleccionar los perifericos usb que se apagaran a la hora de bloquear los equipos
+
+################################################################################
+-----------------------Configurar ssh-------------------------------------------
+por seguridad es recomendable cambiar el puerto ssh
+
+sudo nano /etc/ssh/sshd_config
+
+
+por defecto viene asi
+
+#Port 22
+
+para cambiarlo quite la "#" y establesca su propio puerto ejemplo 'Port 5645'
+
+################################################################################
+-----------------------Programar acciones---------------------------------------
+para agregar mensajes automaticos utiliza 
+
+crontab -e 
+
+toma en cuenta los siguientes parametros
+
+minuto(0-59) hora(0-23) dia(1-31) mes(1-12) dia_de_la_semana(0=domingo) 
+
+crontab -e
+
+58 21 * * * ~/script/time.sh
+00 22 * * * ~/script/shutdown.sh
+################################################################################
+----------Para agregar videos o imagenes a la pantalla de bloqueo --------------
+
+active la opcion de mostrar archivos ocultos
+(puede precionar ctrl + h o alt + .)
+
+guarde los archivos en la carpeta correspondiente dentro de la carpeta .bloqueo
+
+dentro del archivo lock.sh quite el simbolo de numeros "#" dependiendo de su eleccion.
+
+mplayer 	para bloquear con videos
+ristretto 	para bloquear con imagenes
+
+
+################################################################################
+
+

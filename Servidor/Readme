@@ -1,0 +1,47 @@
+################################################################################
+
+Por defecto se instegro el archvo 'install.sh' que ya tiene todo lo antes mencionado, solo basta con abrir la terminal y escribir los sigientes comandos
+
+cd script
+./install.sh
+
+
+################################################################################
+################################################################################
+-----------------------software necesario---------------------------------------
+
+sudo apt-get update
+sudo apt-get install ssh nmap expect wakeonlan system-config-printer-gnome network-manager-gnome
+
+expect				permite el envio de comandos por terminal
+system-config-printer-gnome	permite acceder a impresoras
+network-manager-gnome		permite acceder a configuraciones de red
+ssh				permite la conexion remota entre cliente servidor
+zenity				permite lanzar cuadros de dialogo desde la terminal
+
+################################################################################
+-----------------------identificar dispositivos en red--------------------------
+utilice el siguiente comando para buscar los equipos conectados en su red y poder obtener la informacion de las mac
+
+sudo nmap -sP x.x.x.x-x
+
+establesca el rango de su ip
+
+192.168.0.1-254
+
+aqui escanea de la ip 192.168.0.1 a la 192.168.0.254
+
+################################################################################
+-----------------------Configurar ssh-------------------------------------------
+por seguridad es recomendable cambiar el puerto ssh
+
+sudo nano /etc/ssh/sshd_config
+
+
+por defecto viene asi
+
+#Port 22
+
+para cambiarlo quite la "#" y establesca su propio puerto ejemplo 'Port 5645'
+
+################################################################################
