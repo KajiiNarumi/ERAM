@@ -19,7 +19,7 @@ Estamos trabajando bajo la licencia GPL v3, así que siéntase libre de estudiar
 [Entra a mi blog](http://kajiinarumi.hol.es/).
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/IOd-SKz2WtQ" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtu.be/-LtFs3dWd68" frameborder="0" allowfullscreen></iframe>
 
 
 **Estoy empezando a hacer tutoriales de como montar un cibercafe con gnu/linux**
