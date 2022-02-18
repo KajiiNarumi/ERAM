@@ -21,11 +21,4 @@ Estamos trabajando bajo la licencia GPL v3, así que siéntase libre de estudiar
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/YO8FVR79kck" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-**Estoy empezando a hacer tutoriales de como montar un cibercafe con gnu/linux**
 
-
-The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
